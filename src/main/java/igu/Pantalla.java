@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -84,26 +86,57 @@ public class Pantalla extends JFrame {
         // ======== PANEL DE BOTONES ========
         JPanel panelBotones = new JPanel(new GridLayout(1, 3, 20, 0));
         panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        panelBotones.add(new JButton("Atras"));
-        panelBotones.add(new JButton("Guardar"));
-        panelBotones.add(new JButton("Siguiente"));
+        JButton btnAtras = new JButton("Atras");
+        JButton btnGuardar = new JButton("Guardar");
+        JButton btnSiguiente = new JButton("Siguiente");
+
+        panelBotones.add(btnAtras);
+        panelBotones.add(btnGuardar);
+        panelBotones.add(btnSiguiente);
 
         // ======== PANEL INFERIOR ========
         JPanel panelInferior = new JPanel(new BorderLayout());
         panelInferior.add(panelBotones, BorderLayout.NORTH);
 
         JPanel panelIndice = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        panelIndice.add(new JLabel("Indice:"));
-        JTextField campoIndice = new JTextField("1", 3);
-        campoIndice.setHorizontalAlignment(JTextField.CENTER);
-        panelIndice.add(campoIndice);
+        JButton btnIndice = new JButton("Indice");
+        JButton btnContador = new JButton("1");
+        btnContador.setEnabled(false);
 
+        panelIndice.add(btnIndice);
+        panelIndice.add(btnContador);
         panelInferior.add(panelIndice, BorderLayout.SOUTH);
         add(panelInferior, BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
-    }
 
+btnSiguiente.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String indice = btnContador.getText();  
+        int indi = Integer.parseInt(indice);
+
+        if(indi < 9){
+        indi++; 
+        btnContador.setText(String.valueOf(indi));
+        }
+    }
+});
+
+btnAtras.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String indice = btnContador.getText();  
+        int indi = Integer.parseInt(indice);
+
+        if(indi > 0){
+        indi --; 
+        btnContador.setText(String.valueOf(indi));
+        }
+    }
+});
+
+    }
     // Método para agregar una fila (label + campo de texto)
     private int agregarCampo(JPanel panel, GridBagConstraints gbc, int fila, String etiqueta) {
         gbc.gridx = 0;
