@@ -22,6 +22,22 @@ import javax.swing.SwingConstants;
 
 public class Pantalla extends JFrame {
 
+//variables globales 
+    String dnis[] = new String [10];
+    String nombres[] = new String [10];
+    String apellidos[] = new String [10];
+    String direcciones[] = new String [10];
+    String telefonos[] = new String [10];
+    String fechanac[] = new String [10];
+
+    // campos de texto
+    JTextField txtDnis;
+    JTextField txtNombres;
+    JTextField txtApellidos;
+    JTextField txtDirecciones;
+    JTextField txtTelefonos;
+    JTextField txtFechanac;
+
     public Pantalla() {
         setTitle("Agenda Electronica");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +49,7 @@ public class Pantalla extends JFrame {
         titulo.setFont(new Font("Arial", Font.BOLD, 28));
         add(titulo, BorderLayout.NORTH);
 
-        // ======== PANEL CENTRAL (con 2 columnas) ========
+        // ======== PANEL CENTRAL ========
         JPanel panelCentral = new JPanel(new GridLayout(1, 2, 40, 0)); // 1 fila, 2 columnas, espacio entre columnas
         panelCentral.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
@@ -119,6 +135,13 @@ btnSiguiente.addActionListener(new ActionListener() {
         if(indi < 9){
         indi++; 
         btnContador.setText(String.valueOf(indi));
+
+        txtDnis.setText(dnis[indi]);
+        txtNombres.setText(nombres[indi]);
+        txtApellidos.setText(apellidos[indi]);
+        txtDirecciones.setText(direcciones[indi]);
+        txtTelefonos.setText(telefonos[indi]);
+        txtFechanac.setText(fechanac[indi]);
         }
     }
 });
@@ -132,10 +155,30 @@ btnAtras.addActionListener(new ActionListener(){
         if(indi > 0){
         indi --; 
         btnContador.setText(String.valueOf(indi));
+                txtDnis.setText(dnis[indi]);
+        txtNombres.setText(nombres[indi]);
+        txtApellidos.setText(apellidos[indi]);
+        txtDirecciones.setText(direcciones[indi]);
+        txtTelefonos.setText(telefonos[indi]);
+        txtFechanac.setText(fechanac[indi]);
         }
     }
 });
 
+btnGuardar.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String indice = btnContador.getText();  
+        int indi = Integer.parseInt(indice);
+
+        dnis[indi] = txtDnis.getText();
+        nombres[indi] = txtNombres.getText();
+        apellidos[indi] = txtApellidos.getText();
+        direcciones[indi] = txtDirecciones.getText();
+        telefonos[indi] = txtTelefonos.getText();
+        fechanac[indi] = txtFechanac.getText();
+        }
+});
     }
     // Método para agregar una fila (label + campo de texto)
     private int agregarCampo(JPanel panel, GridBagConstraints gbc, int fila, String etiqueta) {
@@ -144,11 +187,27 @@ btnAtras.addActionListener(new ActionListener(){
         gbc.weightx = 0;
         panel.add(new JLabel(etiqueta), gbc);
 
+        //CAMPO DE TEXTO
         gbc.gridx = 1;
         gbc.weightx = 1;
         JTextField campo = new JTextField();
         campo.setPreferredSize(new Dimension(200, 25)); // ANCHO 200px, ALTO 25px
         panel.add(campo, gbc);
+
+        //ASIGNAR REFERENCIA DEL CAMPO SEGUN ETIQUETA
+        if(etiqueta.equals("DNI:")){
+            txtDnis = campo;
+        } else if(etiqueta.equals("Nombre:")){
+            txtNombres = campo;
+        } else if(etiqueta.equals("Apellido:")){
+            txtApellidos = campo;
+        } else if(etiqueta.equals("Direccion:")){
+            txtDirecciones = campo;
+        } else if(etiqueta.equals("Telefono:")){
+            txtTelefonos = campo;
+        } else if(etiqueta.equals("F. Nac:")){
+            txtFechanac = campo;
+        }
 
         return fila + 1;
     }
